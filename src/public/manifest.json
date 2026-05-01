@@ -2,7 +2,7 @@
   "name": "StoryIn. - Berbagi Cerita Inspiratif",
   "short_name": "StoryIn.",
   "description": "Platform berbagi cerita dan momen inspiratif bersama komunitas.",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#0c2c55",

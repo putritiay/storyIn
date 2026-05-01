@@ -139,8 +139,8 @@ export default class NewPage {
     });
     this.#takenDocumentations = [];
 
-    this.#presenter.showNewFormMap();
     this.#setupForm();
+    this.#presenter.showNewFormMap();
     this.#setupCameraButton();
 
     // Stop media stream when navigating away via hash change
@@ -530,7 +530,7 @@ export default class NewPage {
 
     setTimeout(() => {
       this.clearForm();
-      location.href = "/";
+      location.hash = "/";
     }, 1500);
   }
 

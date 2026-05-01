@@ -1,7 +1,7 @@
 {
   "name": "app-starter-project-with-webpack",
   "version": "1.0.0",
-  "homepage": "https://putritiay.github.io/project-submission/",
+  "homepage": "https://putritiay.github.io/storyIn/",
   "description": "",
   "scripts": {
     "build": "webpack --config webpack.prod.js",

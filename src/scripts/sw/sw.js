@@ -2,15 +2,15 @@
 
 const CACHE_NAME = "storyin-cache-v1";
 const ASSETS_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/app.bundle.js",
-  "/app.css",
-  "/favicon.ico",
-  "/manifest.json",
-  "/images/logo-storyin.png",
-  "/images/screenshot-1.png",
-  "/images/screenshot-2.png",
+  "./",
+  "./index.html",
+  "./app.bundle.js",
+  "./app.css",
+  "./favicon.ico",
+  "./manifest.json",
+  "./images/logo-storyin.png",
+  "./images/screenshot-1.png",
+  "./images/screenshot-2.png",
   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
@@ -85,10 +85,10 @@ self.addEventListener("push", (event) => {
     const title = data.title || "StoryIn - Cerita Baru!";
     const options = {
       body: data.options?.body || "Ada cerita baru yang dibagikan. Cek sekarang!",
-      icon: "/favicon.ico",
-      badge: "/favicon.ico",
+      icon: "./favicon.ico",
+      badge: "./favicon.ico",
       data: {
-        url: self.location.origin,
+        url: self.registration.scope,
         storyId: data.storyId || null,
       },
     };
@@ -100,7 +100,7 @@ self.addEventListener("push", (event) => {
     // Fallback for non-JSON push data if any
     const options = {
       body: event.data ? event.data.text() : "Ada pembaruan dari StoryIn!",
-      icon: "/favicon.ico",
+      icon: "./favicon.ico",
     };
     event.waitUntil(self.registration.showNotification("StoryIn Update", options));
   }
@@ -114,11 +114,11 @@ self.addEventListener("notificationclick", (event) => {
   event.waitUntil(
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
       const storyId = event.notification.data?.storyId;
-      const targetUrl = storyId ? `/#/detail/${storyId}` : "/";
+      const targetUrl = storyId ? `${self.registration.scope}#/detail/${storyId}` : self.registration.scope;
 
       // If a window is already open, focus it and navigate
       for (const client of clientList) {
-        if (client.url === self.location.origin + "/" || client.url.startsWith(self.location.origin + "/#")) {
+        if (client.url === self.registration.scope || client.url.startsWith(self.registration.scope + "#")) {
           if ("focus" in client) {
             client.navigate(targetUrl);
             return client.focus();
