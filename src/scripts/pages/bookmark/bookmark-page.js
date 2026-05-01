@@ -11,9 +11,21 @@ export default class BookmarkPage {
 
   async render() {
     return `
-      <div id="bookmark-page-container">
-        ${generateBookmarkPageTemplate()}
-      </div>
+      <section id="bookmark-page-container">
+        <div class="new-story__header">
+          <div class="container">
+            <h1 class="new-story__header__title">Cerita Tersimpan</h1>
+            <p class="new-story__header__description">
+              Kumpulan cerita menarik yang telah Anda simpan secara lokal.<br>
+              Baca kembali kapan saja, bahkan saat offline.
+            </p>
+          </div>
+        </div>
+        
+        <div class="container">
+          ${generateBookmarkPageTemplate()}
+        </div>
+      </section>
     `;
   }
 

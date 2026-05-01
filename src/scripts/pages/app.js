@@ -134,7 +134,7 @@ class App {
     const subscribeButton = document.getElementById("push-subscription-button");
     subscribeButton.addEventListener("click", async (event) => {
       event.preventDefault();
-      
+
       const currentSubscription = await PushNotificationHelper.getSubscription();
       const isCurrentlySubscribed = !!currentSubscription;
 

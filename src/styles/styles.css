@@ -458,11 +458,9 @@ body.drawer-open .drawer-overlay {
 
 /* New Story Page Styles */
 .new-story__header {
-  background: linear-gradient(
-    135deg,
-    var(--color-primary) 0%,
-    var(--color-secondary) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 100%);
   padding: 100px 0 140px;
   color: white;
   text-align: center;
@@ -477,11 +475,9 @@ body.drawer-open .drawer-overlay {
   left: -20%;
   width: 140%;
   height: 140%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 70%
-  );
+  background: radial-gradient(circle,
+      rgba(255, 255, 255, 0.1) 0%,
+      transparent 70%);
   transform: rotate(-15deg);
 }
 
@@ -724,6 +720,7 @@ label.story-form__title {
 /* ─── Responsive: Mobile 375px ───────────────────────────────────────────── */
 
 @media (max-width: 480px) {
+
   /* Map on home page */
   #map.stories-list__map {
     height: 280px;
@@ -749,6 +746,7 @@ label.story-form__title {
     padding: 24px 16px;
     border-radius: 20px;
   }
+
   .detail-story__map {
     border-radius: 12px;
   }
@@ -1262,6 +1260,7 @@ label.story-form__title {
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
+
   ::view-transition-old(root),
   ::view-transition-new(root),
   ::view-transition-old(hero-banner),
@@ -1312,6 +1311,7 @@ label.story-form__title {
 
 /* Suppress animation for users who prefer reduced motion */
 @media (prefers-reduced-motion: reduce) {
+
   .main-content.page-exit,
   .main-content.page-enter {
     animation: none;
@@ -1324,7 +1324,9 @@ label.story-form__title {
 }
 
 .detail-story__header {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  background: linear-gradient(135deg,
+      var(--color-primary) 0%,
+      var(--color-secondary) 100%);
   padding: 60px 0;
   color: white;
   margin-bottom: 40px;
@@ -1445,4 +1447,150 @@ label.story-form__title {
   border-radius: 20px;
   border: 1px solid var(--color-border);
   z-index: 1;
+}
+
+/* ─── Story Card Actions ───────────────────────────────────────────────── */
+.story-card__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-save-story {
+  border: 1px solid var(--color-border);
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  color: var(--color-text-light);
+  transition: var(--transition);
+}
+
+.btn-save-story:hover {
+  background: var(--color-bg);
+  color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-save-story.active {
+  background: var(--color-secondary);
+  color: white;
+  border-color: var(--color-secondary);
+  box-shadow: 0 4px 12px rgba(98, 159, 173, 0.3);
+}
+
+.btn-delete-bookmark {
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: var(--transition);
+}
+
+.btn-delete-bookmark:hover {
+  background: var(--color-error);
+  color: white;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* ─── Search & Filter UI ────────────────────────────────────────────────── */
+.search-filter__container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: -40px auto 40px;
+  background: var(--color-surface);
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(12, 44, 85, 0.08);
+  border: 1px solid var(--color-border);
+  position: relative;
+  z-index: 5;
+}
+
+.search-box {
+  flex: 3;
+  position: relative;
+  min-width: 250px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-light);
+  pointer-events: none;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.search-box input:focus {
+  background: white;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(98, 159, 173, 0.1);
+  outline: none;
+}
+
+.filter-box {
+  flex: 1;
+  min-width: 160px;
+}
+
+.filter-box select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%230c2c55'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 18px;
+}
+
+.filter-box select:focus {
+  background-color: white;
+  border-color: var(--color-secondary);
+  box-shadow: 0 0 0 4px rgba(98, 159, 173, 0.1);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .search-filter__container {
+    margin-top: -30px;
+    padding: 16px;
+    gap: 12px;
+  }
+  
+  .search-box, .filter-box {
+    flex: 1 1 100%;
+  }
 }

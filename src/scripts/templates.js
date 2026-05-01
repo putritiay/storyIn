@@ -84,12 +84,12 @@ export function generateStoryItemTemplate(story) {
             <button
               class="btn-icon btn-save-story"
               data-story='${JSON.stringify({
-                id: story.id,
-                name: story.name,
-                description: story.description,
-                photoUrl: story.photoUrl,
-                createdAt: story.createdAt,
-              })}'
+    id: story.id,
+    name: story.name,
+    description: story.description,
+    photoUrl: story.photoUrl,
+    createdAt: story.createdAt,
+  }).replace(/'/g, "&apos;")}'
               aria-label="Simpan cerita ini"
               title="Simpan Cerita"
             >
@@ -153,16 +153,15 @@ export function generateStoryDetailTemplate(story) {
 
             <p class="detail-story__description">${story.description}</p>
 
-            ${
-              story.lat && story.lon
-                ? `
+            ${story.lat && story.lon
+      ? `
               <div class="detail-story__location">
                 <h2 class="detail-story__location-title">Lokasi Cerita</h2>
                 <div id="map" class="detail-story__map" role="application" aria-label="Peta lokasi cerita"></div>
               </div>
             `
-                : ""
-            }
+      : ""
+    }
           </div>
         </div>
       </div>
@@ -184,12 +183,7 @@ export function generateStoryDetailErrorTemplate(message) {
 
 export function generateBookmarkPageTemplate() {
   return `
-    <section class="container" aria-labelledby="bookmark-heading">
-      <div class="bookmark-header">
-        <h1 id="bookmark-heading" class="section-title">Cerita Tersimpan</h1>
-        <p class="section-description">Kumpulan cerita menarik yang telah Anda simpan secara lokal.</p>
-      </div>
-
+    <div class="search-filter__sticky-wrapper">
       <div class="search-filter__container">
         <div class="search-box">
           <i class="fas fa-search search-icon"></i>
@@ -208,14 +202,15 @@ export function generateBookmarkPageTemplate() {
           </select>
         </div>
       </div>
+    </div>
 
-      <div class="stories-list__container">
-        <div id="stories-list" role="feed" aria-label="Daftar cerita tersimpan" aria-busy="true"></div>
-        <div id="stories-list-loading-container" aria-live="polite"></div>
-      </div>
-    </section>
+    <div class="stories-list__container">
+      <div id="stories-list" role="feed" aria-label="Daftar cerita tersimpan" aria-busy="true"></div>
+      <div id="stories-list-loading-container" aria-live="polite"></div>
+    </div>
   `;
 }
+
 
 export function generateBookmarkItemTemplate(story) {
   return `
@@ -245,5 +240,3 @@ export function generateBookmarkItemTemplate(story) {
     </article>
   `;
 }
-
-
