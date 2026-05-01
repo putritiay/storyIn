@@ -79,7 +79,7 @@ export function generateStoryItemTemplate(story) {
               class="btn-text"
               aria-label="Baca cerita lengkap dari ${story.name}"
             >
-              Baca Selengkapnya <i class="fas fa-arrow-right" aria-hidden="true"></i>
+              Baca Cerita <i class="fas fa-arrow-right" aria-hidden="true"></i>
             </a>
             <button
               class="btn-icon btn-save-story"
@@ -229,7 +229,7 @@ export function generateBookmarkItemTemplate(story) {
         <div class="story-card__footer">
           <div class="story-card__actions">
             <a href="#/detail/${story.id}" class="btn-text">
-              Baca <i class="fas fa-arrow-right"></i>
+              Baca Cerita <i class="fas fa-arrow-right"></i>
             </a>
             <button class="btn-icon btn-delete-bookmark" data-id="${story.id}" aria-label="Hapus dari simpanan" title="Hapus">
               <i class="fas fa-trash-alt"></i>

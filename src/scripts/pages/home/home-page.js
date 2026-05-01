@@ -173,7 +173,7 @@ export default class HomePage {
       card.setAttribute("tabindex", "0");
 
       const handleSync = (e) => {
-        // Let the "Baca Selengkapnya" link handle its own navigation
+        // Let the "Baca Cerita" link handle its own navigation
         if (e.target.closest(".btn-text")) return;
 
         const marker = this.#markers[index];
