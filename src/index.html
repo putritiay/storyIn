@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="StoryIn – Platform berbagi cerita dan momen inspiratif bersama komunitas. Tulis, bagikan, dan temukan cerita dari seluruh Indonesia."
+    />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <title>StoryIn. — Berbagi Cerita Inspiratif</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <!-- Leaflet Map -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+  </head>
+
+  <body>
+    <!-- Skip to Content link (a11y) -->
+    <a id="skip-link" class="skip-link" href="#main-content"
+      >Menuju konten utama</a
+    >
+
+    <header role="banner">
+      <div class="main-header container">
+        <a
+          class="brand-name"
+          href="#/"
+          aria-label="StoryIn – Kembali ke halaman utama"
+        >
+          <img
+            class="brand-name__image"
+            src="images/logo-storyin.png"
+            alt="Logo StoryIn"
+          />
+          <span class="brand-name__text" aria-hidden="true">StoryIn.</span>
+        </a>
+
+        <nav
+          id="navigation-drawer"
+          class="navigation-drawer"
+          aria-label="Navigasi utama"
+        >
+          <ul
+            id="navlist-main"
+            class="navigation-drawer__navlist-main"
+            role="list"
+          ></ul>
+          <ul id="navlist" class="navigation-drawer__navlist" role="list"></ul>
+        </nav>
+
+        <div id="drawer-overlay" class="drawer-overlay"></div>
+
+        <button
+          id="drawer-button"
+          class="drawer-button"
+          aria-label="Buka menu navigasi"
+          aria-expanded="false"
+          aria-controls="navigation-drawer"
+        >
+          <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content" tabindex="-1"></main>
+  </body>
+</html>
