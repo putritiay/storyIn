@@ -96,9 +96,9 @@ class App {
 
   #setupNavigationList() {
     const isLogin = !!getAccessToken();
-    const navListMain =
-      this.#drawerNavigation.children.namedItem("navlist-main");
-    const navList = this.#drawerNavigation.children.namedItem("navlist");
+    const navContentWrapper = this.#drawerNavigation.querySelector(".nav-content-wrapper");
+    const navListMain = navContentWrapper.querySelector("#navlist-main");
+    const navList = navContentWrapper.querySelector("#navlist");
 
     if (!isLogin) {
       navListMain.innerHTML = "";
