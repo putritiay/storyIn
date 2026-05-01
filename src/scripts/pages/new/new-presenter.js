@@ -1,10 +1,12 @@
 export default class NewPresenter {
   #view;
   #model;
+  #db;
 
-  constructor({ view, model }) {
+  constructor({ view, model, db }) {
     this.#view = view;
     this.#model = model;
+    this.#db = db;
   }
 
   async showNewFormMap() {
@@ -32,6 +34,13 @@ export default class NewPresenter {
         lat,
         lon,
       };
+
+      if (!navigator.onLine) {
+        await this.#db.addOfflinePost(data);
+        this.#view.storeSuccessfully("Cerita disimpan secara lokal karena Anda sedang offline. Akan di-sync saat online! 📶", data);
+        return;
+      }
+
       const response = await this.#model.addNewStory(data);
 
       if (!response.ok) {

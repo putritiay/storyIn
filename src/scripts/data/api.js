@@ -133,3 +133,38 @@ export async function addNewStoryWithoutAuth({
     ok: fetchResponse.ok,
   };
 }
+
+export async function pushSubscribe(subscription) {
+  const accessToken = getAccessToken();
+  const fetchResponse = await fetch(ENDPOINTS.SUBSCRIBE, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(subscription),
+  });
+  const json = await fetchResponse.json();
+  return {
+    ...json,
+    ok: fetchResponse.ok,
+  };
+}
+
+export async function pushUnsubscribe(endpoint) {
+  const accessToken = getAccessToken();
+  const fetchResponse = await fetch(ENDPOINTS.UNSUBSCRIBE, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({ endpoint }),
+  });
+  const json = await fetchResponse.json();
+  return {
+    ...json,
+    ok: fetchResponse.ok,
+  };
+}
+

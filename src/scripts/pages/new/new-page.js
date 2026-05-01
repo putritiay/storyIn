@@ -1,6 +1,7 @@
 import NewPresenter from "./new-presenter";
 import { convertBase64ToBlob } from "../../utils";
 import * as StoryAPI from "../../data/api";
+import StoryInDB from "../../data/db/storyin-db";
 import { generateLoaderAbsoluteTemplate } from "../../templates";
 
 export default class NewPage {
@@ -134,6 +135,7 @@ export default class NewPage {
     this.#presenter = new NewPresenter({
       view: this,
       model: StoryAPI,
+      db: StoryInDB,
     });
     this.#takenDocumentations = [];
 

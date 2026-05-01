@@ -3,9 +3,13 @@ import { getActiveRoute } from "../routes/url-parser";
 import {
   generateAuthenticatedNavigationListTemplate,
   generateMainNavigationListTemplate,
+  generatePushNotificationToggleTemplate,
   generateUnauthenticatedNavigationListTemplate,
 } from "../templates";
 import { getAccessToken, getLogout } from "../utils/auth";
+import PushNotificationHelper from "../utils/push-notification-helper";
+import * as StoryAPI from "../data/api";
+import StoryInDB from "../data/db/storyin-db";
 
 class App {
   #content = null;
@@ -25,6 +29,13 @@ class App {
 
   #init() {
     this.#setupDrawer();
+    this.#setupPushNotification();
+    this.#setupGlobalEvents();
+    this.#setupOfflineSync();
+  }
+
+  async #setupPushNotification() {
+    await PushNotificationHelper.registerServiceWorker();
   }
 
   #setupDrawer() {
@@ -98,6 +109,8 @@ class App {
     navListMain.innerHTML = generateMainNavigationListTemplate();
     navList.innerHTML = generateAuthenticatedNavigationListTemplate();
 
+    this.#setupPushSubscriptionButton();
+
     const logoutButton = document.getElementById("logout-button");
     logoutButton.addEventListener("click", (event) => {
       event.preventDefault();
@@ -107,6 +120,114 @@ class App {
         location.hash = "/login";
       }
     });
+  }
+
+  async #setupPushSubscriptionButton() {
+    const pushNotificationTools = document.getElementById("push-notification-tools");
+    if (!pushNotificationTools) return;
+
+    const subscription = await PushNotificationHelper.getSubscription();
+    const isSubscribed = !!subscription;
+
+    pushNotificationTools.innerHTML = generatePushNotificationToggleTemplate(isSubscribed);
+
+    const subscribeButton = document.getElementById("push-subscription-button");
+    subscribeButton.addEventListener("click", async (event) => {
+      event.preventDefault();
+      
+      const currentSubscription = await PushNotificationHelper.getSubscription();
+      const isCurrentlySubscribed = !!currentSubscription;
+
+      try {
+        subscribeButton.disabled = true;
+        subscribeButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>Processing...</span>`;
+
+        if (isCurrentlySubscribed) {
+          const endpoint = await PushNotificationHelper.unsubscribeUser();
+          if (endpoint) {
+            await StoryAPI.pushUnsubscribe(endpoint);
+          }
+        } else {
+          const newSubscription = await PushNotificationHelper.subscribeUser();
+          if (newSubscription) {
+            const subJSON = newSubscription.toJSON();
+            await StoryAPI.pushSubscribe({
+              endpoint: subJSON.endpoint,
+              keys: {
+                p256dh: subJSON.keys.p256dh,
+                auth: subJSON.keys.auth,
+              },
+            });
+          }
+        }
+
+        // Re-render button
+        this.#setupPushSubscriptionButton();
+      } catch (error) {
+        console.error("Error toggling push subscription:", error);
+        alert("Gagal mengubah status langganan notifikasi. Silakan coba lagi.");
+        this.#setupPushSubscriptionButton();
+      }
+    });
+  }
+
+  #setupGlobalEvents() {
+    // Delegation for dynamic bookmark buttons
+    document.body.addEventListener("click", async (event) => {
+      const saveBtn = event.target.closest(".btn-save-story");
+      if (saveBtn) {
+        event.preventDefault();
+        try {
+          const storyData = JSON.parse(saveBtn.dataset.story);
+          const existing = await StoryInDB.getBookmark(storyData.id);
+
+          if (existing) {
+            await StoryInDB.deleteBookmark(storyData.id);
+            saveBtn.querySelector("i").className = "far fa-bookmark";
+            saveBtn.classList.remove("active");
+          } else {
+            await StoryInDB.putBookmark(storyData);
+            saveBtn.querySelector("i").className = "fas fa-bookmark";
+            saveBtn.classList.add("active");
+          }
+        } catch (error) {
+          console.error("Bookmark error:", error);
+        }
+      }
+    });
+  }
+
+  async #setupOfflineSync() {
+    // Check for offline posts on startup and whenever online
+    const sync = async () => {
+      if (!navigator.onLine) return;
+
+      const offlinePosts = await StoryInDB.getAllOfflinePosts();
+      if (offlinePosts.length === 0) return;
+
+      console.log(`Syncing ${offlinePosts.length} offline posts...`);
+
+      for (const post of offlinePosts) {
+        try {
+          const response = await StoryAPI.addNewStory({
+            description: post.description,
+            photo: post.photo,
+            lat: post.lat,
+            lon: post.lon,
+          });
+
+          if (response.ok) {
+            await StoryInDB.deleteOfflinePost(post.id);
+            console.log("Offline post synced successfully!");
+          }
+        } catch (error) {
+          console.error("Sync failed for post:", post.id, error);
+        }
+      }
+    };
+
+    window.addEventListener("online", sync);
+    sync(); // Run once at start
   }
 
   /**
