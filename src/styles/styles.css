@@ -279,6 +279,12 @@ body.drawer-open .drawer-overlay {
   font-weight: 600 !important;
 }
 
+.logout-button:hover {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: var(--color-error) !important;
+  transform: translateX(4px);
+}
+
 .logout-button i {
   margin-right: 8px;
 }
@@ -307,54 +313,130 @@ body.drawer-open .drawer-overlay {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
+  min-height: 80vh;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, rgba(234, 240, 246, 0.5) 0%, rgba(206, 223, 237, 0.5) 100%);
+  border-radius: var(--radius-lg);
+  margin: 20px auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative background blur blobs */
+.login-container::before,
+.register-container::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(98, 159, 173, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  z-index: 0;
+}
+
+.login-container::after,
+.register-container::after {
+  content: "";
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(circle, rgba(12, 44, 85, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  z-index: 0;
 }
 
 .login-form-container,
 .register-form-container {
+  position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 400px;
-  background: var(--color-surface);
-  padding: 40px;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-clean);
-  border: 1px solid var(--color-border);
+  max-width: 420px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 48px 40px;
+  border-radius: 24px;
+  box-shadow: 0 24px 48px rgba(12, 44, 85, 0.08), 0 4px 12px rgba(12, 44, 85, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+}
+
+.login-form-container:hover,
+.register-form-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 32px 64px rgba(12, 44, 85, 0.12), 0 8px 24px rgba(12, 44, 85, 0.05);
 }
 
 .login__title,
 .register__title {
-  font-size: 1.75rem;
-  margin-bottom: 8px;
+  font-size: 2.1rem;
+  font-weight: 800;
+  margin-bottom: 32px;
   text-align: center;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
 }
 
 .login-form__do-not-have-account,
 .register-form__already-have-account {
   text-align: center;
-  margin-top: 24px;
-  font-size: 0.9rem;
+  margin-top: 28px;
+  font-size: 0.95rem;
   color: var(--color-text-light);
 }
 
 .login-form__do-not-have-account a,
 .register-form__already-have-account a {
   color: var(--color-secondary);
-  font-weight: 600;
+  font-weight: 700;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.login-form__do-not-have-account a::after,
+.register-form__already-have-account a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--color-secondary);
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+.login-form__do-not-have-account a:hover::after,
+.register-form__already-have-account a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
 
 /* Form Styling */
 .form-control {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .form-control label {
   display: block;
-  font-size: 0.95rem;
-  /* Slightly larger for readability */
+  font-size: 0.9rem;
   font-weight: 600;
   margin-bottom: 8px;
-  color: var(--color-text);
-  /* Higher contrast */
+  color: var(--color-primary);
+  transition: color 0.3s ease;
+}
+
+.form-control:focus-within label {
+  color: var(--color-secondary);
 }
 
 .form-control input:not([type="radio"]),
@@ -362,25 +444,29 @@ body.drawer-open .drawer-overlay {
   width: 100%;
   field-sizing: content;
   min-height: 50px;
-  /* Tinggi minimal */
   max-height: 200px;
-  /* Tinggi maksimal sebelum scroll muncul */
-  padding: 14px 16px;
-  /* Larger hit area */
-  border-radius: var(--radius-sm);
-  border: 1px solid #cbd5e1;
-  /* Clearer border */
-  background: #fcfcfc;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: rgba(241, 245, 249, 0.8);
   font-size: 1rem;
-  transition: var(--transition);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
   outline: none;
 }
 
 .form-control input:focus,
 .form-control textarea:focus {
+  background: #ffffff;
   border-color: var(--color-secondary);
-  background: #fff;
-  box-shadow: 0 0 0 4px rgba(98, 159, 173, 0.1);
+  box-shadow: 0 8px 16px rgba(98, 159, 173, 0.12), inset 0 0 0 1px var(--color-secondary);
+}
+
+.form-control input::placeholder,
+.form-control textarea::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
 }
 
 .form-buttons {
@@ -420,26 +506,36 @@ body.drawer-open .drawer-overlay {
 /* Button Styles */
 .btn {
   width: 100%;
-  padding: 14px 24px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-weight: 700;
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
 }
 
 .btn[type="submit"] {
-  background: var(--color-primary);
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4a8c 100%);
   color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(12, 44, 85, 0.2);
 }
 
 .btn[type="submit"]:hover {
-  background: #15396b;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(12, 44, 85, 0.2);
+  background: linear-gradient(135deg, #1a4a8c 0%, var(--color-primary) 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(12, 44, 85, 0.3);
+}
+
+.btn[type="submit"]:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 10px rgba(12, 44, 85, 0.2);
+  transition: all 0.1s ease;
 }
 
 .new-story-button {
@@ -537,7 +633,43 @@ label.story-form__title {
 .story-form__location__lat-lng {
   display: flex;
   gap: 16px;
-  margin-top: 12px;
+  margin-top: 16px;
+}
+
+.story-form__location__lat,
+.story-form__location__lng {
+  flex: 1;
+}
+
+.story-form__location__lat label,
+.story-form__location__lng label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.story-form__location__lat input,
+.story-form__location__lng input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: rgba(241, 245, 249, 0.8);
+  font-size: 0.95rem;
+  font-family: "Roboto", monospace;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  outline: none;
+}
+
+.story-form__location__lat input:focus,
+.story-form__location__lng input:focus {
+  background: #ffffff;
+  border-color: var(--color-secondary);
+  box-shadow: 0 8px 16px rgba(98, 159, 173, 0.12), inset 0 0 0 1px var(--color-secondary);
 }
 
 #map.stories-list__map {
@@ -1613,5 +1745,47 @@ label.story-form__title {
   .search-box,
   .filter-box {
     flex: 1 1 100%;
+  }
+}
+
+/* ─── Footer ────────────────────────────────────────────────────────────── */
+.app-footer {
+  text-align: center;
+  padding: 32px 0;
+  margin-top: 40px;
+  background: var(--color-primary);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-surface);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.heart-icon {
+  color: #ef4444;
+  margin: 0 4px;
+  animation: heartbeat 1.5s infinite ease-in-out;
+}
+
+@keyframes heartbeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  15% {
+    transform: scale(1.25);
+  }
+
+  30% {
+    transform: scale(1);
+  }
+
+  45% {
+    transform: scale(1.15);
+  }
+
+  60% {
+    transform: scale(1);
   }
 }
