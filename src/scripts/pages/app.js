@@ -111,16 +111,6 @@ class App {
     navList.innerHTML = generateAuthenticatedNavigationListTemplate();
 
     this.#setupPushSubscriptionButton();
-
-    const logoutButton = document.getElementById("logout-button");
-    logoutButton.addEventListener("click", (event) => {
-      event.preventDefault();
-
-      if (confirm("Apakah Anda yakin ingin keluar?")) {
-        getLogout();
-        location.hash = "/login";
-      }
-    });
   }
 
   async #setupPushSubscriptionButton() {
@@ -193,6 +183,16 @@ class App {
           }
         } catch (error) {
           console.error("Bookmark error:", error);
+        }
+      }
+
+      // Delegation for logout button
+      const logoutBtn = event.target.closest("#logout-button");
+      if (logoutBtn) {
+        event.preventDefault();
+        if (confirm("Apakah Anda yakin ingin keluar?")) {
+          getLogout();
+          location.hash = "/login";
         }
       }
     });
