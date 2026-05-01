@@ -32,6 +32,7 @@ class App {
     this.#setupPushNotification();
     this.#setupGlobalEvents();
     this.#setupOfflineSync();
+    this.#setupScrollListener();
   }
 
   async #setupPushNotification() {
@@ -194,6 +195,15 @@ class App {
           console.error("Bookmark error:", error);
         }
       }
+    });
+  }
+
+  #setupScrollListener() {
+    const header = document.querySelector("header");
+    if (!header) return;
+
+    window.addEventListener("scroll", () => {
+      header.classList.toggle("scrolled", window.scrollY > 20);
     });
   }
 
