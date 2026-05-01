@@ -361,7 +361,7 @@ body.drawer-open .drawer-overlay {
 .form-control textarea {
   width: 100%;
   field-sizing: content;
-  min-height: 100px;
+  min-height: 50px;
   /* Tinggi minimal */
   max-height: 200px;
   /* Tinggi maksimal sebelum scroll muncul */
