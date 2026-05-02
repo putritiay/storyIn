@@ -44,6 +44,11 @@ class App {
       const isOpen = this.#drawerNavigation.classList.toggle("open");
       document.body.classList.toggle("drawer-open", isOpen);
 
+      const icon = this.#drawerButton.querySelector("i");
+      if (icon) {
+        icon.className = isOpen ? "fas fa-xmark" : "fas fa-bars";
+      }
+
       this.#drawerButton.setAttribute("aria-expanded", String(isOpen));
       this.#drawerButton.setAttribute(
         "aria-label",
@@ -55,6 +60,10 @@ class App {
       this.#drawerOverlay.addEventListener("click", () => {
         this.#drawerNavigation.classList.remove("open");
         document.body.classList.remove("drawer-open");
+        
+        const icon = this.#drawerButton.querySelector("i");
+        if (icon) icon.className = "fas fa-bars";
+
         this.#drawerButton.setAttribute("aria-expanded", "false");
         this.#drawerButton.setAttribute("aria-label", "Buka menu navigasi");
       });
@@ -66,6 +75,10 @@ class App {
         !this.#drawerButton.contains(event.target)
       ) {
         this.#drawerNavigation.classList.remove("open");
+        
+        const icon = this.#drawerButton.querySelector("i");
+        if (icon) icon.className = "fas fa-bars";
+
         this.#drawerButton.setAttribute("aria-expanded", "false");
         this.#drawerButton.setAttribute("aria-label", "Buka menu navigasi");
       }
@@ -74,6 +87,10 @@ class App {
         if (link.contains(event.target)) {
           this.#drawerNavigation.classList.remove("open");
           document.body.classList.remove("drawer-open");
+          
+          const icon = this.#drawerButton.querySelector("i");
+          if (icon) icon.className = "fas fa-bars";
+
           this.#drawerButton.setAttribute("aria-expanded", "false");
           this.#drawerButton.setAttribute("aria-label", "Buka menu navigasi");
         }
@@ -88,6 +105,10 @@ class App {
       ) {
         this.#drawerNavigation.classList.remove("open");
         document.body.classList.remove("drawer-open");
+        
+        const icon = this.#drawerButton.querySelector("i");
+        if (icon) icon.className = "fas fa-bars";
+
         this.#drawerButton.setAttribute("aria-expanded", "false");
         this.#drawerButton.setAttribute("aria-label", "Buka menu navigasi");
         this.#drawerButton.focus();

@@ -23,7 +23,13 @@ self.addEventListener("install", (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Service Worker: Caching App Shell");
-      return cache.addAll(ASSETS_TO_CACHE);
+      return Promise.all(
+        ASSETS_TO_CACHE.map((url) => {
+          return cache.add(url).catch((err) => {
+            console.warn(`Service Worker: Failed to cache ${url}`, err);
+          });
+        })
+      );
     }),
   );
 });
@@ -71,7 +77,9 @@ self.addEventListener("fetch", (event) => {
   // Other Requests: Cache-First
   event.respondWith(
     caches.match(request).then((response) => {
-      return response || fetch(request);
+      return response || fetch(request).catch((err) => {
+        console.warn(`Service Worker: Fetch failed for ${request.url}`, err);
+      });
     }),
   );
 });
