@@ -137,6 +137,21 @@ export function generateStoryDetailTemplate(story) {
 
       <div class="container">
         <div class="detail-story__content">
+          <button
+            class="btn-icon btn-save-story detail-story__bookmark-btn"
+            data-story='${JSON.stringify({
+    id: story.id,
+    name: story.name,
+    description: story.description,
+    photoUrl: story.photoUrl,
+    createdAt: story.createdAt,
+  }).replace(/'/g, "&apos;")}'
+            aria-label="Simpan cerita ini"
+            title="Simpan Cerita"
+          >
+            <i class="far fa-bookmark"></i>
+          </button>
+
           <div class="detail-story__image-container">
             <img src="${story.photoUrl}" alt="Foto cerita oleh ${story.name}" class="detail-story__image">
           </div>
