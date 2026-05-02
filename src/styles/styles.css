@@ -429,7 +429,6 @@ body.drawer-open .drawer-overlay {
 .login-form__do-not-have-account,
 .register-form__already-have-account {
   text-align: center;
-  margin-top: 28px;
   font-size: 0.95rem;
   color: var(--color-text-light);
 }
@@ -995,11 +994,6 @@ label.story-form__title {
 /* ─── Responsive: Tablet 768px ───────────────────────────────────────────── */
 
 @media (max-width: 768px) {
-  .login-form__do-not-have-account,
-  .register-form__already-have-account {
-    margin-top: 14px;
-  }
-
   .stories-list {
     grid-template-columns: 1fr;
     gap: 20px;
