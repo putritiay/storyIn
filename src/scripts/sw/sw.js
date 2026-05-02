@@ -20,6 +20,7 @@ const ASSETS_TO_CACHE = [
 // Install Event
 self.addEventListener("install", (event) => {
   console.log("Service Worker: Installing...");
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log("Service Worker: Caching App Shell");
@@ -38,7 +39,8 @@ self.addEventListener("install", (event) => {
 self.addEventListener("activate", (event) => {
   console.log("Service Worker: Activating...");
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
+    self.clients.claim().then(() => {
+      return caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
@@ -47,7 +49,8 @@ self.addEventListener("activate", (event) => {
           }
         }),
       );
-    }),
+    })
+    })
   );
 });
 
@@ -68,7 +71,12 @@ self.addEventListener("fetch", (event) => {
             cache.put(request, response.clone());
             return response;
           })
-          .catch(() => cache.match(request));
+          .catch(() => {
+            return cache.match(request).then((cachedResponse) => {
+              if (cachedResponse) return cachedResponse;
+              return Response.error();
+            });
+          });
       }),
     );
     return;
@@ -79,6 +87,7 @@ self.addEventListener("fetch", (event) => {
     caches.match(request).then((response) => {
       return response || fetch(request).catch((err) => {
         console.warn(`Service Worker: Fetch failed for ${request.url}`, err);
+        return Response.error();
       });
     }),
   );
