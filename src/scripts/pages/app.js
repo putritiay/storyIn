@@ -60,7 +60,7 @@ class App {
       this.#drawerOverlay.addEventListener("click", () => {
         this.#drawerNavigation.classList.remove("open");
         document.body.classList.remove("drawer-open");
-        
+
         const icon = this.#drawerButton.querySelector("i");
         if (icon) icon.className = "fas fa-bars";
 
@@ -75,7 +75,7 @@ class App {
         !this.#drawerButton.contains(event.target)
       ) {
         this.#drawerNavigation.classList.remove("open");
-        
+
         const icon = this.#drawerButton.querySelector("i");
         if (icon) icon.className = "fas fa-bars";
 
@@ -87,7 +87,7 @@ class App {
         if (link.contains(event.target)) {
           this.#drawerNavigation.classList.remove("open");
           document.body.classList.remove("drawer-open");
-          
+
           const icon = this.#drawerButton.querySelector("i");
           if (icon) icon.className = "fas fa-bars";
 
@@ -105,7 +105,7 @@ class App {
       ) {
         this.#drawerNavigation.classList.remove("open");
         document.body.classList.remove("drawer-open");
-        
+
         const icon = this.#drawerButton.querySelector("i");
         if (icon) icon.className = "fas fa-bars";
 
@@ -118,7 +118,9 @@ class App {
 
   #setupNavigationList() {
     const isLogin = !!getAccessToken();
-    const navContentWrapper = this.#drawerNavigation.querySelector(".nav-content-wrapper");
+    const navContentWrapper = this.#drawerNavigation.querySelector(
+      ".nav-content-wrapper",
+    );
     const navListMain = navContentWrapper.querySelector("#navlist-main");
     const navList = navContentWrapper.querySelector("#navlist");
 
@@ -135,19 +137,23 @@ class App {
   }
 
   async #setupPushSubscriptionButton() {
-    const pushNotificationTools = document.getElementById("push-notification-tools");
+    const pushNotificationTools = document.getElementById(
+      "push-notification-tools",
+    );
     if (!pushNotificationTools) return;
 
     const subscription = await PushNotificationHelper.getSubscription();
     const isSubscribed = !!subscription;
 
-    pushNotificationTools.innerHTML = generatePushNotificationToggleTemplate(isSubscribed);
+    pushNotificationTools.innerHTML =
+      generatePushNotificationToggleTemplate(isSubscribed);
 
     const subscribeButton = document.getElementById("push-subscription-button");
     subscribeButton.addEventListener("click", async (event) => {
       event.preventDefault();
 
-      const currentSubscription = await PushNotificationHelper.getSubscription();
+      const currentSubscription =
+        await PushNotificationHelper.getSubscription();
       const isCurrentlySubscribed = !!currentSubscription;
 
       try {

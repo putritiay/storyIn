@@ -167,4 +167,3 @@ export async function pushUnsubscribe(endpoint) {
     ok: fetchResponse.ok,
   };
 }
-

@@ -27,7 +27,9 @@ const PushNotificationHelper = {
       const registration = await navigator.serviceWorker.ready;
       const subscription = await registration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(CONFIG.PUSH_MSG_VAPID_PUBLIC_KEY),
+        applicationServerKey: urlBase64ToUint8Array(
+          CONFIG.PUSH_MSG_VAPID_PUBLIC_KEY,
+        ),
       });
 
       console.log("User subscribed:", subscription);

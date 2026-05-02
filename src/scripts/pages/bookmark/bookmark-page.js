@@ -57,7 +57,10 @@ export default class BookmarkPage {
       return;
     }
 
-    const html = stories.reduce((acc, story) => acc + generateBookmarkItemTemplate(story), "");
+    const html = stories.reduce(
+      (acc, story) => acc + generateBookmarkItemTemplate(story),
+      "",
+    );
     storiesList.innerHTML = `<div class="stories-list">${html}</div>`;
 
     this.#setupDeleteButtons();
@@ -74,7 +77,7 @@ export default class BookmarkPage {
       let filtered = this.#allStories.filter(
         (s) =>
           s.name.toLowerCase().includes(searchTerm) ||
-          s.description.toLowerCase().includes(searchTerm)
+          s.description.toLowerCase().includes(searchTerm),
       );
 
       // Sorting logic
@@ -111,7 +114,8 @@ export default class BookmarkPage {
   }
 
   showLoading() {
-    document.getElementById("stories-list-loading-container").innerHTML = generateLoaderAbsoluteTemplate();
+    document.getElementById("stories-list-loading-container").innerHTML =
+      generateLoaderAbsoluteTemplate();
   }
 
   hideLoading() {

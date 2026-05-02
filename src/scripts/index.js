@@ -1,7 +1,6 @@
 // CSS imports
 import "../styles/styles.css";
 
-
 // Component imports
 import App from "./pages/app";
 

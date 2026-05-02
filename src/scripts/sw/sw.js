@@ -29,7 +29,7 @@ self.addEventListener("install", (event) => {
           return cache.add(url).catch((err) => {
             console.warn(`Service Worker: Failed to cache ${url}`, err);
           });
-        })
+        }),
       );
     }),
   );
@@ -41,16 +41,16 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     self.clients.claim().then(() => {
       return caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cache) => {
-          if (cache !== CACHE_NAME) {
-            console.log("Service Worker: Clearing Old Cache");
-            return caches.delete(cache);
-          }
-        }),
-      );
-    })
-    })
+        return Promise.all(
+          cacheNames.map((cache) => {
+            if (cache !== CACHE_NAME) {
+              console.log("Service Worker: Clearing Old Cache");
+              return caches.delete(cache);
+            }
+          }),
+        );
+      });
+    }),
   );
 });
 
@@ -85,10 +85,13 @@ self.addEventListener("fetch", (event) => {
   // Other Requests: Cache-First
   event.respondWith(
     caches.match(request).then((response) => {
-      return response || fetch(request).catch((err) => {
-        console.warn(`Service Worker: Fetch failed for ${request.url}`, err);
-        return Response.error();
-      });
+      return (
+        response ||
+        fetch(request).catch((err) => {
+          console.warn(`Service Worker: Fetch failed for ${request.url}`, err);
+          return Response.error();
+        })
+      );
     }),
   );
 });
@@ -101,7 +104,8 @@ self.addEventListener("push", (event) => {
     const data = event.data ? event.data.json() : {};
     const title = data.title || "StoryIn - Cerita Baru!";
     const options = {
-      body: data.options?.body || "Ada cerita baru yang dibagikan. Cek sekarang!",
+      body:
+        data.options?.body || "Ada cerita baru yang dibagikan. Cek sekarang!",
       icon: "./favicon.ico",
       badge: "./favicon.ico",
       data: {
@@ -113,13 +117,15 @@ self.addEventListener("push", (event) => {
     event.waitUntil(self.registration.showNotification(title, options));
   } catch (error) {
     console.error("Service Worker: Error displaying notification", error);
-    
+
     // Fallback for non-JSON push data if any
     const options = {
       body: event.data ? event.data.text() : "Ada pembaruan dari StoryIn!",
       icon: "./favicon.ico",
     };
-    event.waitUntil(self.registration.showNotification("StoryIn Update", options));
+    event.waitUntil(
+      self.registration.showNotification("StoryIn Update", options),
+    );
   }
 });
 
@@ -129,23 +135,30 @@ self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      const storyId = event.notification.data?.storyId;
-      const targetUrl = storyId ? `${self.registration.scope}#/detail/${storyId}` : self.registration.scope;
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        const storyId = event.notification.data?.storyId;
+        const targetUrl = storyId
+          ? `${self.registration.scope}#/detail/${storyId}`
+          : self.registration.scope;
 
-      // If a window is already open, focus it and navigate
-      for (const client of clientList) {
-        if (client.url === self.registration.scope || client.url.startsWith(self.registration.scope + "#")) {
-          if ("focus" in client) {
-            client.navigate(targetUrl);
-            return client.focus();
+        // If a window is already open, focus it and navigate
+        for (const client of clientList) {
+          if (
+            client.url === self.registration.scope ||
+            client.url.startsWith(self.registration.scope + "#")
+          ) {
+            if ("focus" in client) {
+              client.navigate(targetUrl);
+              return client.focus();
+            }
           }
         }
-      }
-      // Otherwise, open a new window
-      if (clients.openWindow) {
-        return clients.openWindow(targetUrl);
-      }
-    }),
+        // Otherwise, open a new window
+        if (clients.openWindow) {
+          return clients.openWindow(targetUrl);
+        }
+      }),
   );
 });

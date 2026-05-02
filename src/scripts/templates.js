@@ -84,12 +84,12 @@ export function generateStoryItemTemplate(story) {
             <button
               class="btn-icon btn-save-story"
               data-story='${JSON.stringify({
-    id: story.id,
-    name: story.name,
-    description: story.description,
-    photoUrl: story.photoUrl,
-    createdAt: story.createdAt,
-  }).replace(/'/g, "&apos;")}'
+                id: story.id,
+                name: story.name,
+                description: story.description,
+                photoUrl: story.photoUrl,
+                createdAt: story.createdAt,
+              }).replace(/'/g, "&apos;")}'
               aria-label="Simpan cerita ini"
               title="Simpan Cerita"
             >
@@ -140,12 +140,12 @@ export function generateStoryDetailTemplate(story) {
           <button
             class="btn-icon btn-save-story detail-story__bookmark-btn"
             data-story='${JSON.stringify({
-    id: story.id,
-    name: story.name,
-    description: story.description,
-    photoUrl: story.photoUrl,
-    createdAt: story.createdAt,
-  }).replace(/'/g, "&apos;")}'
+              id: story.id,
+              name: story.name,
+              description: story.description,
+              photoUrl: story.photoUrl,
+              createdAt: story.createdAt,
+            }).replace(/'/g, "&apos;")}'
             aria-label="Simpan cerita ini"
             title="Simpan Cerita"
           >
@@ -168,15 +168,16 @@ export function generateStoryDetailTemplate(story) {
 
             <p class="detail-story__description">${story.description}</p>
 
-            ${story.lat && story.lon
-      ? `
+            ${
+              story.lat && story.lon
+                ? `
               <div class="detail-story__location">
                 <h2 class="detail-story__location-title">Lokasi Cerita</h2>
                 <div id="map" class="detail-story__map" role="application" aria-label="Peta lokasi cerita"></div>
               </div>
             `
-      : ""
-    }
+                : ""
+            }
           </div>
         </div>
       </div>
@@ -225,7 +226,6 @@ export function generateBookmarkPageTemplate() {
     </div>
   `;
 }
-
 
 export function generateBookmarkItemTemplate(story) {
   return `

@@ -48,7 +48,8 @@ export default class DetailPage {
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(map);
 
     L.marker([lat, lon]).addTo(map);
@@ -60,7 +61,8 @@ export default class DetailPage {
   }
 
   showLoading() {
-    document.getElementById("detail-loading-container").innerHTML = generateLoaderAbsoluteTemplate();
+    document.getElementById("detail-loading-container").innerHTML =
+      generateLoaderAbsoluteTemplate();
   }
 
   hideLoading() {

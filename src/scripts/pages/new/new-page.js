@@ -144,7 +144,9 @@ export default class NewPage {
     this.#setupCameraButton();
 
     // Stop media stream when navigating away via hash change
-    window.addEventListener("hashchange", this.#handleHashChange, { once: true });
+    window.addEventListener("hashchange", this.#handleHashChange, {
+      once: true,
+    });
   }
 
   #handleHashChange = () => {
@@ -181,7 +183,7 @@ export default class NewPage {
       .getElementById("documentations-input")
       .addEventListener("change", async (event) => {
         const insertingPicturesPromises = Object.values(event.target.files).map(
-          async (file) => await this.#addTakenPicture(file)
+          async (file) => await this.#addTakenPicture(file),
         );
         await Promise.all(insertingPicturesPromises);
         await this.#populateTakenPictures();
@@ -194,7 +196,9 @@ export default class NewPage {
   #validateForm() {
     let isValid = true;
 
-    const description = this.#form.elements.namedItem("description").value.trim();
+    const description = this.#form.elements
+      .namedItem("description")
+      .value.trim();
 
     // Validate description
     if (!description) {
@@ -211,8 +215,12 @@ export default class NewPage {
 
     // Validate photo
     if (this.#takenDocumentations.length === 0) {
-      this.#showFieldError("photo-error", "Harap pilih atau ambil setidaknya satu foto.");
-      if (isValid) document.getElementById("documentations-input-button").focus();
+      this.#showFieldError(
+        "photo-error",
+        "Harap pilih atau ambil setidaknya satu foto.",
+      );
+      if (isValid)
+        document.getElementById("documentations-input-button").focus();
       isValid = false;
     } else {
       this.#clearFieldError("photo-error");
@@ -245,7 +253,9 @@ export default class NewPage {
 
   #setupCameraButton() {
     const cameraContainer = document.getElementById("camera-container");
-    const cameraBtn = document.getElementById("open-documentations-camera-button");
+    const cameraBtn = document.getElementById(
+      "open-documentations-camera-button",
+    );
     const btnText = document.getElementById("camera-btn-text");
 
     cameraBtn.addEventListener("click", async () => {
@@ -273,7 +283,8 @@ export default class NewPage {
     });
 
     // Capture button
-    document.getElementById("camera-capture-button")
+    document
+      .getElementById("camera-capture-button")
       .addEventListener("click", () => this.#capturePhoto());
   }
 
@@ -282,7 +293,11 @@ export default class NewPage {
 
     try {
       this.#mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } },
+        video: {
+          facingMode: "environment",
+          width: { ideal: 1280 },
+          height: { ideal: 720 },
+        },
         audio: false,
       });
       this.#videoElement.srcObject = this.#mediaStream;
@@ -290,7 +305,8 @@ export default class NewPage {
       console.error("Camera access error:", err);
       let errorMsg = "Tidak dapat mengakses kamera.";
       if (err.name === "NotAllowedError") {
-        errorMsg = "Akses kamera ditolak. Harap izinkan akses kamera di browser Anda.";
+        errorMsg =
+          "Akses kamera ditolak. Harap izinkan akses kamera di browser Anda.";
       } else if (err.name === "NotFoundError") {
         errorMsg = "Kamera tidak ditemukan pada perangkat ini.";
       }
@@ -298,10 +314,16 @@ export default class NewPage {
 
       // Close camera container
       document.getElementById("camera-container").classList.remove("open");
-      document.getElementById("camera-container").setAttribute("aria-hidden", "true");
-      document.getElementById("open-documentations-camera-button").setAttribute("aria-pressed", "false");
+      document
+        .getElementById("camera-container")
+        .setAttribute("aria-hidden", "true");
+      document
+        .getElementById("open-documentations-camera-button")
+        .setAttribute("aria-pressed", "false");
       document.getElementById("camera-btn-text").textContent = "Buka Kamera";
-      document.getElementById("open-documentations-camera-button").querySelector("i").className = "fas fa-camera";
+      document
+        .getElementById("open-documentations-camera-button")
+        .querySelector("i").className = "fas fa-camera";
       this.#isCameraOpen = false;
     }
   }
@@ -318,14 +340,18 @@ export default class NewPage {
     const ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    canvas.toBlob(async (blob) => {
-      if (blob) {
-        await this.#addTakenPicture(blob);
-        await this.#populateTakenPictures();
-        this.#clearFieldError("photo-error");
-        this.#showToast("Foto berhasil diambil!", "success");
-      }
-    }, "image/jpeg", 0.9);
+    canvas.toBlob(
+      async (blob) => {
+        if (blob) {
+          await this.#addTakenPicture(blob);
+          await this.#populateTakenPictures();
+          this.#clearFieldError("photo-error");
+          this.#showToast("Foto berhasil diambil!", "success");
+        }
+      },
+      "image/jpeg",
+      0.9,
+    );
   }
 
   #stopCameraStream() {
@@ -356,7 +382,7 @@ export default class NewPage {
         maxZoom: 19,
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      }
+      },
     );
     osm.addTo(map);
 
@@ -448,7 +474,7 @@ export default class NewPage {
         </li>
       `);
       },
-      ""
+      "",
     );
 
     document.getElementById("documentations-taken-list").innerHTML = html;
@@ -463,19 +489,19 @@ export default class NewPage {
             console.log(`Picture with id ${pictureId} was not found`);
           }
           this.#populateTakenPictures();
-        })
+        }),
       );
   }
 
   #removePicture(id) {
     const selectedPicture = this.#takenDocumentations.find(
-      (picture) => picture.id == id
+      (picture) => picture.id == id,
     );
 
     if (!selectedPicture) return null;
 
     this.#takenDocumentations = this.#takenDocumentations.filter(
-      (picture) => picture.id != selectedPicture.id
+      (picture) => picture.id != selectedPicture.id,
     );
 
     return selectedPicture;
@@ -491,11 +517,12 @@ export default class NewPage {
     toast.className = `form-toast form-toast--${type}`;
     toast.setAttribute("role", "alert");
 
-    const icon = type === "success"
-      ? "fas fa-check-circle"
-      : type === "error"
-      ? "fas fa-exclamation-circle"
-      : "fas fa-info-circle";
+    const icon =
+      type === "success"
+        ? "fas fa-check-circle"
+        : type === "error"
+          ? "fas fa-exclamation-circle"
+          : "fas fa-info-circle";
 
     toast.innerHTML = `
       <i class="${icon}"></i>
@@ -519,7 +546,9 @@ export default class NewPage {
 
   #dismissToast(toast) {
     toast.classList.remove("visible");
-    toast.addEventListener("transitionend", () => toast.remove(), { once: true });
+    toast.addEventListener("transitionend", () => toast.remove(), {
+      once: true,
+    });
   }
 
   // ─── View Interface (called by Presenter) ─────────────────────────────────
@@ -535,7 +564,10 @@ export default class NewPage {
   }
 
   storeFailed(message) {
-    this.#showToast(message || "Gagal membagikan cerita. Silakan coba lagi.", "error");
+    this.#showToast(
+      message || "Gagal membagikan cerita. Silakan coba lagi.",
+      "error",
+    );
   }
 
   clearForm() {

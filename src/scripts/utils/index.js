@@ -15,7 +15,6 @@ export function setupSkipToContent(element, mainContent) {
   element.addEventListener("click", () => mainContent.focus());
 }
 
-
 /**
  * Ref: https://stackoverflow.com/questions/18650168/convert-blob-to-base64
  */

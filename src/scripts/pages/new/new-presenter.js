@@ -20,12 +20,7 @@ export default class NewPresenter {
     }
   }
 
-  async postNewStory({
-    description,
-    photo,
-    lat,
-    lon,
-  }) {
+  async postNewStory({ description, photo, lat, lon }) {
     this.#view.showSubmitLoadingButton();
     try {
       const data = {
@@ -37,7 +32,10 @@ export default class NewPresenter {
 
       if (!navigator.onLine) {
         await this.#db.addOfflinePost(data);
-        this.#view.storeSuccessfully("Cerita disimpan secara lokal karena Anda sedang offline. Akan di-sync saat online! 📶", data);
+        this.#view.storeSuccessfully(
+          "Cerita disimpan secara lokal karena Anda sedang offline. Akan di-sync saat online! 📶",
+          data,
+        );
         return;
       }
 
